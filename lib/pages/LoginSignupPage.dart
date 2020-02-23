@@ -176,6 +176,7 @@ class _LoginSignupPage extends State<LoginSignupPage> {
             style: TextStyle(
               fontSize: 20.0,
               color: Colors.white,
+              fontWeight: FontWeight.w700,
             ),
           ),
           onPressed: validateAndSubmit,
