@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginSignupPage extends StatefulWidget {
   @override
@@ -7,7 +8,6 @@ class LoginSignupPage extends StatefulWidget {
 
 class _LoginSignupPage extends State<LoginSignupPage> {
   final _formKey = new GlobalKey<FormState>();
-  //TODO: Add iOS .plist for FireBase
   //Variables
   bool _isLoading;
   bool _isLoginForm;
