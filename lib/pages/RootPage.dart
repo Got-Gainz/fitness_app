@@ -5,7 +5,7 @@ import 'package:fitness_app/pages/HomePage.dart'; //TODO Add homepage here and r
 
 enum AuthStatus {
   NOT_DETERMINED,
-  NOT_LOGGED_IN,
+  LOGGED_OUT,
   LOGGED_IN,
 }
 
@@ -33,7 +33,7 @@ class _RootPageState extends State<RootPage> {
               _userId = user?.uid;
             }
             authStatus = user?.uid == null
-                ? AuthStatus.NOT_LOGGED_IN
+                ? AuthStatus.LOGGED_OUT
                 : AuthStatus.LOGGED_IN;
           },
         );
@@ -41,7 +41,7 @@ class _RootPageState extends State<RootPage> {
     );
   }
 
-  void loginCallback() {
+  void _loginCallback() {
     widget.auth.getCurrentUser().then(
       (user) {
         setState(
@@ -54,6 +54,15 @@ class _RootPageState extends State<RootPage> {
     setState(
       () {
         authStatus = AuthStatus.LOGGED_IN;
+      },
+    );
+  }
+
+  void _logoutCallback() {
+    setState(
+      () {
+        authStatus = AuthStatus.LOGGED_OUT;
+        _userId = "";
       },
     );
   }
@@ -73,19 +82,19 @@ class _RootPageState extends State<RootPage> {
       case AuthStatus.NOT_DETERMINED:
         return buildWaitingScreen();
         break;
-      case AuthStatus.NOT_LOGGED_IN:
+      case AuthStatus.LOGGED_OUT:
         return LoginSignupPage(
           auth: widget.auth,
-          loginCallback: loginCallback,
+          loginCallback: _loginCallback,
         );
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
           return HomePage(
-              //userId: _userId,
-              //auth: widget.auth,
-              //logoutCallback: loginCallback,
-              );
+            userId: _userId,
+            auth: widget.auth,
+            logoutCallback: _logoutCallback,
+          );
         } else {
           return buildWaitingScreen();
         }
