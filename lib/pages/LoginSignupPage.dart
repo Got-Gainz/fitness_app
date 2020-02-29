@@ -23,7 +23,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   FormMode _formMode = FormMode.LOGIN;
 
-  bool _isIos = false;
   bool _isLoading = false;
 
   @override
@@ -71,7 +70,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   Widget _emailWidget() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(10.0, 100.0, 10.0, 0.0),
       child: TextFormField(
         textInputAction: TextInputAction.next,
         maxLines: 1,
@@ -84,7 +83,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             color: Colors.grey,
           ),
         ),
-        validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
+        validator: validateEmail,
         onSaved: (value) => _email = value.trim(),
         onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       ),
@@ -93,7 +92,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   Widget _passwordWidget() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0.0),
       child: TextFormField(
         maxLines: 1,
         obscureText: true,
@@ -105,7 +104,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             color: Colors.grey,
           ),
         ),
-        validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
+        validator: validatePassword,
         onSaved: (value) => _password = value.trim(),
       ),
     );
@@ -222,10 +221,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         setState(
           () {
             _isLoading = false;
-            if (_isIos) {
-              _errorMessage = e.details;
-            } else
-              _errorMessage = e.message;
+            String errorMsg = Auth.getExceptionText(e);
+            _errorMessage = errorMsg;
           },
         );
       }
@@ -237,5 +234,23 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       );
     }
     SystemChannels.textInput.invokeMethod('TextInput.hide');
+  }
+
+  static String validateEmail(String value) {
+    Pattern pattern = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Please enter a valid email address.';
+    else
+      return null;
+  }
+
+  static String validatePassword(String value) {
+    Pattern pattern = r'^.{6,}$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Password must be at least 6 characters.';
+    else
+      return null;
   }
 }
