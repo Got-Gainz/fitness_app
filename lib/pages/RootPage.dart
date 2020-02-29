@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitness_app/pages/LoginSignupPage.dart';
-import 'package:fitness_app/backend/Authentication.dart';
+import 'package:fitness_app/services/Authentication.dart';
 import 'package:fitness_app/pages/HomePage.dart'; //TODO Add homepage here and remove testing homepage
 
 enum AuthStatus {

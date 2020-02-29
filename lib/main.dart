@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_splash/animated_splash.dart';
 import 'package:fitness_app/pages/RootPage.dart';
-import 'package:fitness_app/backend/Authentication.dart';
+import 'package:fitness_app/services/Authentication.dart';
 
 void main() => runApp(FitnessApp());
 

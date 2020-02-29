@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fitness_app/backend/Authentication.dart';
+import 'package:fitness_app/services/Authentication.dart';
 import 'package:flutter/services.dart';
 
 class LoginSignupPage extends StatefulWidget {

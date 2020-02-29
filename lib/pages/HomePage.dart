@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fitness_app/backend/Authentication.dart';
+import 'package:fitness_app/services/Authentication.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.logoutCallback})
