@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitness_app/backend/Authentication.dart';
+import 'package:flutter/services.dart';
 
 class LoginSignupPage extends StatefulWidget {
   LoginSignupPage({this.auth, this.loginCallback});
@@ -36,7 +37,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         children: <Widget>[
           formWidget(),
           loginButtonWidget(),
-          secondaryButton(),
+          createAccountButton(),
           errorWidget(),
           progressWidget(),
         ],
@@ -72,6 +73,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
       child: TextFormField(
+        textInputAction: TextInputAction.next,
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
@@ -84,6 +86,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         ),
         validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
         onSaved: (value) => _email = value.trim(),
+        onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       ),
     );
   }
@@ -130,7 +133,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
-  Widget secondaryButton() {
+  Widget createAccountButton() {
     return FlatButton(
       child: _formMode == FormMode.LOGIN
           ? Text(
@@ -233,5 +236,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         },
       );
     }
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 }
